@@ -20,3 +20,4 @@ class Custom_Error_Message(Enum):
 
     # Authentification
     ADD_USER = 'Error during insertion of the data in the database'
+    CHECKING_USER = 'Error while looking up user in database'

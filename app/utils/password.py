@@ -1,4 +1,7 @@
 import bcrypt
+from fastapi import HTTPException
+
+from app.utils.custom_error_message import Custom_Error_Message
 
 
 class Crypt_password:
@@ -13,6 +16,7 @@ class Crypt_password:
     def compare(self, hashed_password):
         password = self.__password.encode('utf-8')
         if bcrypt.checkpw(password, hashed_password):
-            print("login success")
+            return True
         else:
-            print("incorrect password")
+            raise HTTPException(
+                status_code=403, detail=Custom_Error_Message.BAD_PASSWORD.value)

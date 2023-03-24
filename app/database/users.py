@@ -1,16 +1,18 @@
 from app.models.user import User
 from app.utils.custom_error_message import Custom_Error_Message
 from fastapi import Request, HTTPException
+from ..database.database import db
 
 
 class db_users:
     def __init__(self, request: Request):
         self.__request = request
 
-    def add_user(self, user: User):
+    async def add_user(self, user: User):
         try:
-            request = self.__request.app.database["users"].insert_one(
-                {'username': user.username, 'email': user.email, 'password': str(user.password), })
+            request = await db["users"].insert_one(
+                {'username': user.username, 'email': user.email, 'password': str(user.password)})
+            print(request)
             return request
         except:
             raise HTTPException(

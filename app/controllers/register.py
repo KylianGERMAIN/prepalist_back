@@ -1,15 +1,21 @@
-from app.controllers.password import Crypt_password
-from app.controllers.token import Json_web_token
+from app.utils.password import Crypt_password
+from app.utils.token import Json_web_token
 from app.database.users import db_users
 from app.utils.custom_error_message import Custom_Error_Message
 from fastapi import HTTPException, Request
 from app.models.user import User
 from app.utils.check_input import check_email
+from ..database.database import db
 
 
-def checking_email(email: str, request: Request):
-    var = request.app.database["users"].find({'email': email})
-    if len(list(var)) > 0:
+async def checking_email(email: str, request: Request):
+    try:
+        var = await db["users"].find_one({'email': email})
+    except Exception as e:
+        print(e)
+        raise HTTPException(
+            status_code=403, detail=Custom_Error_Message.CHECKING_USER.value)
+    if var != None:
         raise HTTPException(
             status_code=403, detail=Custom_Error_Message.EMAIL_ALREADY_EXIST.value)
     if check_email(email) == False:
@@ -30,9 +36,7 @@ def checking_username(username: str):
 
 
 def create_tokens(id: str):
-    print(id)
     token = Json_web_token(id)
-    print(token)
     access_token = token.encode_access_token()
     refresh_token = token.encode_refresh_token()
     return {
@@ -43,13 +47,13 @@ def create_tokens(id: str):
     }
 
 
-def register_verification(user: User, request: Request):
+async def register_verification(user: User, request: Request):
     db = db_users(request)
-    checking_email(user.email, request)
+    await checking_email(user.email, request)
     checking_password(user.password)
     checking_username(user.username)
     crypt = Crypt_password(user.password)
     user.password = crypt.encrypt()
-    created_user = db.add_user(user)
-    result = create_tokens(str(created_user.inserted_id))
+    created_user = await db.add_user(user)
+    result = create_tokens(str(created_user))
     return (result)
