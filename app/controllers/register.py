@@ -8,7 +8,10 @@ from app.utils.check_input import check_email
 from ..database.database import db
 
 
-async def checking_email(email: str, request: Request):
+async def checking_email(email: str):
+    if check_email(email) == False:
+        raise HTTPException(
+            status_code=403, detail=Custom_Error_Message.INVALID_EMAIL_ADRESS.value)
     try:
         var = await db["users"].find_one({'email': email})
     except Exception as e:
@@ -18,9 +21,6 @@ async def checking_email(email: str, request: Request):
     if var != None:
         raise HTTPException(
             status_code=403, detail=Custom_Error_Message.EMAIL_ALREADY_EXIST.value)
-    if check_email(email) == False:
-        raise HTTPException(
-            status_code=403, detail=Custom_Error_Message.INVALID_EMAIL_ADRESS.value)
 
 
 def checking_password(password: str):
@@ -47,11 +47,11 @@ def create_tokens(id: str):
     }
 
 
-async def register_verification(user: User, request: Request):
-    db = db_users(request)
-    await checking_email(user.email, request)
+async def register_verification(user: User):
+    db = db_users()
     checking_password(user.password)
     checking_username(user.username)
+    await checking_email(user.email)
     crypt = Crypt_password(user.password)
     user.password = crypt.encrypt()
     created_user = await db.add_user(user)

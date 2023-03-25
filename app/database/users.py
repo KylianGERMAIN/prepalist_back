@@ -1,12 +1,10 @@
 from app.models.user import User
 from app.utils.custom_error_message import Custom_Error_Message
-from fastapi import Request, HTTPException
+from fastapi import HTTPException
 from ..database.database import db
 
 
 class db_users:
-    def __init__(self, request: Request):
-        self.__request = request
 
     async def add_user(self, user: User):
         try:
