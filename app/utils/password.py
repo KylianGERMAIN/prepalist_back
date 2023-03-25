@@ -15,6 +15,7 @@ class Crypt_password:
 
     def compare(self, hashed_password):
         password = self.__password.encode('utf-8')
+        hashed_password = hashed_password.encode('utf-8')
         if bcrypt.checkpw(password, hashed_password):
             return True
         else:

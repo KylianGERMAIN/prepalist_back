@@ -17,15 +17,16 @@ async def checking_email(email: str):
     except:
         raise HTTPException(
             status_code=403, detail=Custom_Error_Message.CHECKING_USER.value)
-    if var != None:
+    if var == None:
         raise HTTPException(
             status_code=403, detail=Custom_Error_Message.EMAIL_ALREADY_EXIST.value)
 
 
-def checking_password(password: str):
-    if len(password) < 7:
+def checking_password(password: str, hashed_password):
+    crypt = Crypt_password(password)
+    if (crypt.compare(hashed_password) != True):
         raise HTTPException(
-            status_code=403, detail=Custom_Error_Message.PASSWORD_LENGTH.value)
+            status_code=403, detail=Custom_Error_Message.BAD_PASSWORD.value)
 
 
 def checking_username(username: str):
@@ -46,13 +47,9 @@ def create_tokens(id: str):
     }
 
 
-async def register_verification(user: User):
+async def login_verification(user: User):
     db = db_users()
-    checking_password(user.password)
-    checking_username(user.username)
+    get_user = await db.get_user_with_email(user)
+    checking_password(user.password, get_user['password'])
     await checking_email(user.email)
-    crypt = Crypt_password(user.password)
-    user.password = crypt.encrypt()
-    created_user = await db.add_user(user)
-    result = create_tokens(str(created_user))
-    return (result)
+    return create_tokens(str(get_user['_id']))

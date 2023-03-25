@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Request
+from app.routes.login import router as login
 from app.routes.register import router as register
 from dotenv import load_dotenv
 
@@ -14,3 +15,4 @@ def greeting(request: Request):
 
 
 app.include_router(register)
+app.include_router(login)
