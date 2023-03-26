@@ -3,11 +3,14 @@ from enum import Enum
 
 class Custom_Error_Message(Enum):
 
+    # User
+    USER_DOES_NOT_EXIST = "The user does not exist"
+
     # Username
     USERNAME_LENGTH = "Your username length must be at least 5 characters"
 
     # Email
-    INVALID_EMAIL_ADRESS = "Your email is not valid"
+    INVALID_EMAIL_ADRESS = "The email is not valid"
     EMAIL_ALREADY_EXIST = "The email already exist"
 
     # Password
@@ -15,9 +18,13 @@ class Custom_Error_Message(Enum):
     BAD_PASSWORD = "The password is incorrect"
 
     # Authorization
-    NO_AUTHORIZATION = "No authorization"
-    INVALID_TOKEN = "Your authorization bearer token is not valid"
+    NO_AUTHORIZATION = "You are not authorized to access this resource"
+    INVALID_TOKEN = "Invalid token"
 
     # Authentification
-    ADD_USER = 'Error during insertion of the data in the database'
-    CHECKING_USER = 'Error while looking up user in database'
+    ADD_USER = "Error while adding user to database"
+    CHECKING_USER = 'Error while checking user in database'
+
+    # Meal
+    MEAL_ALREADY_EXIST = "The meal already exist"
+    CHECKING_MEAL = "Error while checking meal in database"

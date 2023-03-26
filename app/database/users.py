@@ -23,4 +23,4 @@ class db_users:
         except Exception as e:
             print(e)
             raise HTTPException(
-                status_code=403, detail=Custom_Error_Message.NO_AUTHORIZATION.value)
+                status_code=403, detail=Custom_Error_Message.CHECKING_USER.value)
