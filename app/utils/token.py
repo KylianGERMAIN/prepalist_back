@@ -16,9 +16,15 @@ class Json_web_token:
     def set_id(self, id):
         self.__id = id
 
-    def encode_token(self, env: str):
+    def encode_token(self, env: str, access: bool):
+
+        if access == True:
+            time = datetime.timedelta(minutes=30, seconds=0)
+        else:
+            time = datetime.timedelta(weeks=52, seconds=0)
+
         payload = {
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(weeks=52, seconds=0),
+            'exp': datetime.datetime.utcnow() + time,
             'iat': datetime.datetime.utcnow(),
             'id': self.__id
         }

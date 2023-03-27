@@ -9,8 +9,8 @@ router = APIRouter(
 )
 
 
-@router.post('/')
+@router.post('/', response_model=Meal)
 async def meal(request: Request, meal: Meal):
     authorization = request.headers.get('Authorization')
-    await create_meal(authorization, meal)
-    return {'meal': 'meal'}
+    result = await create_meal(authorization, meal)
+    return result

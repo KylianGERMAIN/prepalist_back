@@ -15,8 +15,7 @@ async def checking_email(email: str):
             status_code=400, detail=Custom_Error_Message.INVALID_EMAIL_ADRESS.value)
     try:
         var = await db["users"].find_one({'email': email})
-    except Exception as e:
-        print(e)
+    except:
         raise HTTPException(
             status_code=403, detail=Custom_Error_Message.CHECKING_USER.value)
     if var == None:
@@ -40,9 +39,9 @@ def checking_username(username: str):
 def create_tokens(id: str):
     token = Json_web_token(id)
     access_token = token.encode_token(os.getenv(
-        'JWT_SECRET_ACCESS_TOKEN'))
+        'JWT_SECRET_ACCESS_TOKEN'), True)
     refresh_token = token.encode_token(os.getenv(
-        'JWT_SECRET_REFRESH_TOKEN'))
+        'JWT_SECRET_REFRESH_TOKEN'), False)
     return {
         'refresh_token': refresh_token,
         'access_token': access_token,

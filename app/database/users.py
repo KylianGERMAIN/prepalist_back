@@ -20,7 +20,6 @@ class db_users:
             request = await db["users"].find_one(
                 {'email': user.email})
             return request
-        except Exception as e:
-            print(e)
+        except:
             raise HTTPException(
                 status_code=403, detail=Custom_Error_Message.CHECKING_USER.value)

@@ -6,5 +6,6 @@ class Ingredient(BaseModel):
 
 
 class Meal(BaseModel):
+    id: str | None
     name: str
     ingredients: list[Ingredient] = []

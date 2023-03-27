@@ -28,3 +28,4 @@ class Custom_Error_Message(Enum):
     # Meal
     MEAL_ALREADY_EXIST = "The meal already exist"
     CHECKING_MEAL = "Error while checking meal in database"
+    NO_INGREDIENTS = 'You must add at least one ingredient'

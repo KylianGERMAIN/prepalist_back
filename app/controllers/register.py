@@ -38,9 +38,9 @@ def checking_username(username: str):
 def create_tokens(id: str):
     token = Json_web_token(id)
     access_token = token.encode_token(os.getenv(
-        'JWT_SECRET_ACCESS_TOKEN'))
+        'JWT_SECRET_ACCESS_TOKEN'), True)
     refresh_token = token.encode_token(os.getenv(
-        'JWT_SECRET_REFRESH_TOKEN'))
+        'JWT_SECRET_REFRESH_TOKEN'), False)
     return {
         'refresh_token': refresh_token,
         'access_token': access_token,
