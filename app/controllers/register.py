@@ -4,7 +4,7 @@ from app.utils.token import Json_web_token
 from app.database.users import db_users
 from app.utils.custom_error_message import Custom_Error_Message
 from fastapi import HTTPException
-from app.models.user import User
+from app.models.user import IUser
 from app.utils.check_input import check_email
 from ..database.database import db
 
@@ -49,7 +49,7 @@ def create_tokens(id: str):
     }
 
 
-async def register_verification(user: User):
+async def register_verification(user: IUser):
     db = db_users()
     checking_password(user.password)
     checking_username(user.username)

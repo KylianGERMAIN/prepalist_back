@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class User(BaseModel):
+class IUser(BaseModel):
     username: str
     email: str
     password: str

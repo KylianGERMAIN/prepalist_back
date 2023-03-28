@@ -10,8 +10,9 @@ if __name__ == "__main__":
 app = FastAPI()
 
 
-@app.get('/')
-def greeting(request: Request):
+@app.get('/lol')
+def greeting(id, request: Request):
+    print(id)
     return {'greeting': 'Hello World'}
 
 

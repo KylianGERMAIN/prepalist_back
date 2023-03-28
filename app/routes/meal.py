@@ -1,16 +1,26 @@
 
 from fastapi import APIRouter, Request
-from app.controllers.meal import create_meal
+from app.controllers.meal import meals
 
-from app.models.meal import Meal
+from app.models.meal import IMeal
 
 router = APIRouter(
     prefix='/meal'
 )
 
 
-@router.post('/', response_model=Meal)
-async def meal(request: Request, meal: Meal):
+@router.post('/', response_model=IMeal)
+async def add_meal(request: Request, meal: IMeal):
+    meal_controller = meals()
     authorization = request.headers.get('Authorization')
-    result = await create_meal(authorization, meal)
+    result = await meal_controller.create_meal(authorization, meal)
     return result
+
+
+@router.delete('/')
+async def remove_meal(id, request: Request):
+    meal_controller = meals()
+    authorization = request.headers.get('Authorization')
+    result = await meal_controller.delete_meal(authorization, id)
+    # return result
+    return ({'dede': 'd'})

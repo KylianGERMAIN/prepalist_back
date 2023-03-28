@@ -1,13 +1,13 @@
 
 
 from fastapi import HTTPException
-from app.models.meal import Meal
+from app.models.meal import IMeal
 from app.utils.custom_error_message import Custom_Error_Message
 from ..database.database import db
 
 
 class db_meals:
-    async def add_meal(self, meal: Meal):
+    async def add_meal(self, meal: IMeal):
         try:
             ingredient_list = []
             for i in meal.ingredients:

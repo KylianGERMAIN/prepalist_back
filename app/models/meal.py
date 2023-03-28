@@ -1,11 +1,11 @@
 from pydantic import BaseModel
 
 
-class Ingredient(BaseModel):
+class IIngredient(BaseModel):
     ingredient: str
 
 
-class Meal(BaseModel):
+class IMeal(BaseModel):
     id: str | None
     name: str
-    ingredients: list[Ingredient] = []
+    ingredients: list[IIngredient] = []
