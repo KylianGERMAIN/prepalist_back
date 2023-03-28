@@ -30,6 +30,19 @@ class meals:
             raise HTTPException(
                 status_code=403, detail=Custom_Error_Message.NO_INGREDIENTS.value)
 
+    async def get_meal_by_id(self, meal: IMeal):
+        try:
+            var = await db["meals"].find_one({'name': meal.name})
+        except:
+            raise HTTPException(
+                status_code=403, detail=Custom_Error_Message.CHECKING_MEAL.value)
+        if var != None:
+            raise HTTPException(
+                status_code=409, detail=Custom_Error_Message.MEAL_ALREADY_EXIST.value)
+        if (len(meal.ingredients) <= 0):
+            raise HTTPException(
+                status_code=403, detail=Custom_Error_Message.NO_INGREDIENTS.value)
+
     async def create_meal(self, authorization: str, meal: IMeal):
         token = Json_web_token('no id')
         db = db_meals()
@@ -40,8 +53,9 @@ class meals:
         return meal
 
     async def delete_meal(self, authorization: str, id: str):
-        print(id)
         token = Json_web_token('no id')
         db = db_meals()
         await self.checking_authorization(authorization, token)
-        return ''
+        await db.find_meal(id)
+        await db.remove_meal(id)
+        return {'message': 'Meal deleted'}

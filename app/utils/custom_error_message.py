@@ -29,3 +29,6 @@ class Custom_Error_Message(Enum):
     MEAL_ALREADY_EXIST = "The meal already exist"
     CHECKING_MEAL = "Error while checking meal in database"
     NO_INGREDIENTS = 'You must add at least one ingredient'
+    REMOVE_MEAL = "Error while removing meal from database"
+    MEAL_DOES_NOT_EXIST = "The meal does not exist"
+    FIND_MEAL = "Error while finding meal in database"

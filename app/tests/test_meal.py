@@ -4,6 +4,13 @@ import httpx
 from app.utils.custom_error_message import Custom_Error_Message
 
 
+def delete_meal_(id: str):
+    response = httpx.delete(
+        "http://127.0.0.1:8000/meal/?id="+id, headers={"Authorization": os.getenv(
+            'JWT_SECRET_TEST_LOGIN_TOKEN')})
+    assert response.status_code == 202
+
+
 def test_meal_success():
     data = {
         "name": "pate carbonara",
@@ -22,7 +29,9 @@ def test_meal_success():
     response = httpx.post(
         "http://127.0.0.1:8000/meal/", headers={"Authorization": os.getenv(
             'JWT_SECRET_TEST_LOGIN_TOKEN')}, data=json.dumps(data))
-    assert response.status_code == 200
+    assert response.status_code == 201
+    response = response.json()
+    delete_meal_(response['id'])
 
 
 def test_meal_with_bad_token():
@@ -84,16 +93,10 @@ def test_meal_with_no_ingrediants():
 
 def test_meal_already_exist():
     data = {
-        "name": "pate carbonara",
+        "name": "test",
         "ingredients": [
             {
-                "ingredient": "pate"
-            },
-            {
-                "ingredient": "creme fraiche"
-            },
-            {
-                "ingredient": "lardon"
+                "ingredient": "test"
             }
         ]
     }

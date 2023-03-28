@@ -9,7 +9,7 @@ router = APIRouter(
 )
 
 
-@router.post('/', response_model=IMeal)
+@router.post('/', response_model=IMeal, status_code=201)
 async def add_meal(request: Request, meal: IMeal):
     meal_controller = meals()
     authorization = request.headers.get('Authorization')
@@ -17,10 +17,9 @@ async def add_meal(request: Request, meal: IMeal):
     return result
 
 
-@router.delete('/')
+@router.delete('/', status_code=202)
 async def remove_meal(id, request: Request):
     meal_controller = meals()
     authorization = request.headers.get('Authorization')
     result = await meal_controller.delete_meal(authorization, id)
-    # return result
-    return ({'dede': 'd'})
+    return result
