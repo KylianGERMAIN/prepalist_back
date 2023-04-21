@@ -17,7 +17,15 @@ async def add_meal(request: Request, meal: IMeal):
     return result
 
 
-@router.delete('/', status_code=202)
+@router.put('/{id}')
+async def update_meal(id, request: Request, meal: IMeal):
+    meal_controller = meals()
+    authorization = request.headers.get('Authorization')
+    result = await meal_controller.update_meal(authorization, meal, id)
+    return result
+
+
+@router.delete('/{id}', status_code=202)
 async def remove_meal(id, request: Request):
     meal_controller = meals()
     authorization = request.headers.get('Authorization')

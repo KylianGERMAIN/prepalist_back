@@ -48,3 +48,11 @@ class Json_web_token:
             except:
                 raise HTTPException(
                     status_code=403, detail=Custom_Error_Message.INVALID_TOKEN.value)
+
+    def checking_authorization(self, authorization: str):
+        if (authorization == None):
+            raise HTTPException(
+                status_code=401, detail=Custom_Error_Message.NO_AUTHORIZATION.value)
+        payload = self.decode_token(authorization, os.getenv(
+            'JWT_SECRET_ACCESS_TOKEN'))
+        self.set_id(payload['id'])

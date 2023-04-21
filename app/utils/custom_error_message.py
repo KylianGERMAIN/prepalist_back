@@ -32,6 +32,8 @@ class Custom_Error_Message(Enum):
     REMOVE_MEAL = "Error while removing meal from database"
     MEAL_DOES_NOT_EXIST = "The meal does not exist"
     FIND_MEAL = "Error while finding meal in database"
+    UPDATE_MEAL = "Error while updating meal in database"
+    NO_ENOUGH_MEALS = "You must add at least 10 meals to create your week"
 
     # Create my week
     NOT_SUNDAY = "You must create your week on sunday"

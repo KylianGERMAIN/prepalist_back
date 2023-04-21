@@ -40,8 +40,21 @@ class db_meals:
             return request
         except:
             if request == None:
-                print("piute")
                 raise HTTPException(
                     status_code=403, detail=Custom_Error_Message.MEAL_DOES_NOT_EXIST.value)
             raise HTTPException(
                 status_code=403, detail=Custom_Error_Message.FIND_MEAL.value)
+
+    async def update_meal(self, id: str, token: Json_web_token, meal: IMeal):
+        try:
+            filter = {'_id': ObjectId(id), 'user_id': ObjectId(token.get_id())}
+            ingredient_list = []
+            for i in meal.ingredients:
+                ingredient_list.append({'ingredient': i.ingredient})
+            new_values = {"$set": {'name': str(meal.name), 'ingredients':
+                                   ingredient_list}}
+            request = await db["meals"].update_one(filter, new_values)
+            return request
+        except:
+            raise HTTPException(
+                status_code=403, detail=Custom_Error_Message.UPDATE_MEAL.value)
