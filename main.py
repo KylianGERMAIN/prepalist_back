@@ -4,11 +4,22 @@ from app.routes.create_my_week import router as create_my_week
 from app.routes.register import router as register
 from app.routes.meal import router as meal
 from dotenv import load_dotenv
+from fastapi.middleware.cors import CORSMiddleware
 
 if __name__ == "__main__":
     load_dotenv()
 
 app = FastAPI()
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get('/lol')
