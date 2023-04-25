@@ -49,3 +49,15 @@ class meals:
         await db.find_meal(id, token)
         await db.remove_meal(id, token)
         return {'message': 'Meal deleted'}
+
+    async def get_meal(self, authorization: str, id: str):
+        token = Json_web_token('no id')
+        db = db_meals()
+        token.checking_authorization(authorization)
+        response = await db.find_meal(id, token)
+        print(response)
+        return {
+            'id': str(response['_id']),
+            'name': response['name'],
+            'ingredients': response['ingredients']
+        }

@@ -17,6 +17,14 @@ async def add_meal(request: Request, meal: IMeal):
     return result
 
 
+@router.get('/{id}', response_model=IMeal, status_code=200)
+async def get_meal(id, request: Request):
+    meal_controller = meals()
+    authorization = request.headers.get('Authorization')
+    result = await meal_controller.get_meal(authorization, id)
+    return result
+
+
 @router.put('/{id}')
 async def update_meal(id, request: Request, meal: IMeal):
     meal_controller = meals()
