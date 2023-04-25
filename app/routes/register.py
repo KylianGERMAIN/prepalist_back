@@ -8,7 +8,7 @@ router = APIRouter(
 )
 
 
-@router.post('/', response_model=Response_tokens, status_code=401)
+@router.post('/', response_model=Response_tokens, status_code=201)
 async def register(user: IUser):
     result = await register_verification(user)
     return result
