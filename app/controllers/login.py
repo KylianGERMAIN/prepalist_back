@@ -54,5 +54,5 @@ async def login_verification(user: IUser):
     db = db_users()
     get_user = await db.get_user_with_email(user)
     await checking_email(user.email)
-    await checking_password(user.password, get_user['password'])
+    checking_password(user.password, get_user['password'])
     return create_tokens(str(get_user['_id']))
