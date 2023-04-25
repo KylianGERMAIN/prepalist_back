@@ -37,3 +37,4 @@ class Custom_Error_Message(Enum):
 
     # Create my week
     NOT_SUNDAY = "You must create your week on sunday"
+    NO_WEEK = "You must create your week"
