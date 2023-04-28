@@ -45,6 +45,20 @@ class db_meals:
             raise HTTPException(
                 status_code=403, detail=Custom_Error_Message.FIND_MEAL.value)
 
+    async def find_meals(self, token: Json_web_token):
+        try:
+            mymeal = list()
+            async for doc in db["meals"].find({'user_id': ObjectId(
+                    token.get_id())}):
+                doc['user_id'] = str(doc['user_id'])
+                doc['_id'] = str(doc['_id'])
+                mymeal.append(doc)
+
+            return mymeal
+        except Exception as e:
+            raise HTTPException(
+                status_code=403, detail=Custom_Error_Message.FIND_MEAL.value)
+
     async def update_meal(self, id: str, token: Json_web_token, meal: IMeal):
         try:
             filter = {'_id': ObjectId(id), 'user_id': ObjectId(token.get_id())}

@@ -4,6 +4,7 @@ from app.routes.login import router as login
 from app.routes.create_my_week import router as create_my_week
 from app.routes.register import router as register
 from app.routes.meal import router as meal
+from app.routes.meals import router as meals
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -32,5 +33,6 @@ def greeting(id, request: Request):
 app.include_router(register)
 app.include_router(login)
 app.include_router(meal)
+app.include_router(meals)
 app.include_router(create_my_week)
 app.include_router(my_week)
