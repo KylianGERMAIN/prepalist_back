@@ -43,7 +43,6 @@ class my_week:
 
     async def next_week_add_meal(self, next_week: list, token: Json_web_token):
         var = await db["meals"].count_documents({'user_id': ObjectId(token.get_id())}) - 1
-        print(var)
         if (var < 9):
             raise HTTPException(
                 status_code=403, detail=Custom_Error_Message.NO_ENOUGH_MEALS.value)
