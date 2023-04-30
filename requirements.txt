@@ -1,8 +1,8 @@
-fastapi
-httpx
-motor
-pydantic
-PyJWT
-python-dotenv
-python_bcrypt
-uvicorn
+fastapi==0.95.1
+httpx==0.24.0
+motor==3.1.1
+pydantic==1.10.6
+PyJWT==2.6.0
+pymongo==4.3.3
+python-dotenv==1.0.0
+python_bcrypt==0.3.2
