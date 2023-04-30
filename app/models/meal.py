@@ -9,3 +9,4 @@ class IMeal(BaseModel):
     id: str | None
     name: str
     ingredients: list[IIngredient] = []
+    created_at: str | None

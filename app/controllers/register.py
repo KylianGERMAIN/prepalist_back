@@ -56,6 +56,6 @@ async def register_verification(user: IUser):
     await checking_email(user.email)
     crypt = Crypt_password(user.password)
     user.password = crypt.encrypt()
-    created_user = await db.add_user(user)
-    result = create_tokens(str(created_user))
+    created_user_id = await db.add_user(user)
+    result = create_tokens(str(created_user_id))
     return (result)
