@@ -5,3 +5,4 @@ pydantic==1.10.6
 PyJWT==2.6.0
 python-dotenv==1.0.0
 python_bcrypt==0.3.2
+uvicorn
