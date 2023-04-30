@@ -9,8 +9,7 @@ class Crypt_password:
         self.__password = password
 
     def encrypt(self):
-        password = self.__password.encode('utf-8')
-        hashed_password = bcrypt.hashpw(password, bcrypt.gensalt())
+        hashed_password = bcrypt.hashpw(self.__password, bcrypt.gensalt())
         return hashed_password
 
     def compare(self, hashed_password):
