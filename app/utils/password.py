@@ -10,13 +10,11 @@ class Crypt_password:
 
     def encrypt(self):
         password = self.__password.encode('utf-8')
-        hashed_password = bcrypt.hashpw(password, bcrypt.gensalt(15))
-        return hashed_password.decode('ascii')
+        hashed_password = bcrypt.hashpw(password, bcrypt.gensalt())
+        return hashed_password
 
     def compare(self, hashed_password):
-        password = self.__password.encode('utf-8')
-        hashed_password = hashed_password.encode('utf-8')
-        if bcrypt.checkpw(password, hashed_password):
+        if bcrypt.hashpw(self.__password, hashed_password) == hashed_password:
             return True
         else:
             raise HTTPException(
