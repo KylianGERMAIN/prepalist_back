@@ -8,7 +8,7 @@ from ..database.database import db
 import random
 
 
-class my_week:
+class week:
 
     async def get_start_end_of_week(self, day: str):
         dt = datetime.datetime.strptime(day, '%Y-%m-%d')

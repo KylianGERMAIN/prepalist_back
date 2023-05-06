@@ -1,7 +1,6 @@
 from fastapi import FastAPI, Request
-from app.routes.my_week import router as my_week
 from app.routes.login import router as login
-from app.routes.create_my_week import router as create_my_week
+from app.routes.week import router as week
 from app.routes.register import router as register
 from app.routes.meal import router as meal
 from app.routes.meals import router as meals
@@ -34,8 +33,7 @@ v1.include_router(register)
 v1.include_router(login)
 v1.include_router(meal)
 v1.include_router(meals)
-v1.include_router(create_my_week)
-v1.include_router(my_week)
+v1.include_router(week)
 
 
 app.mount("/api/v1", v1)
