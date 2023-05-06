@@ -65,12 +65,15 @@ class db_meals:
         try:
             filter = {'_id': ObjectId(id), 'user_id': ObjectId(token.get_id())}
             ingredient_list = []
+            day = datetime.datetime.now()
+            day = day.strftime("%Y-%m-%d %H:%M:%S")
             for i in meal.ingredients:
                 ingredient_list.append({'ingredient': i.ingredient})
             new_values = {"$set": {'name': str(meal.name), 'ingredients':
-                                   ingredient_list},  'created_at': i.created_at}
+                                   ingredient_list}}
             request = await db["meals"].update_one(filter, new_values)
             return request
-        except:
+        except Exception as e:
+            print(e)
             raise HTTPException(
                 status_code=403, detail=Custom_Error_Message.UPDATE_MEAL.value)

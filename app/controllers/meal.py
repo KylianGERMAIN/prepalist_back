@@ -43,7 +43,13 @@ class meals:
         meal.id = id
         await db.find_meal(id, token)
         await db.update_meal(id, token, meal)
-        return (meal)
+        response = await db.find_meal(id, token)
+        return {
+            'id': str(response['_id']),
+            'name': response['name'],
+            'ingredients': response['ingredients'],
+            'created_at': response['created_at']
+        }
 
     async def delete_meal(self, authorization: str, id: str):
         token = Json_web_token('no id')
@@ -61,7 +67,8 @@ class meals:
         return {
             'id': str(response['_id']),
             'name': response['name'],
-            'ingredients': response['ingredients']
+            'ingredients': response['ingredients'],
+            'created_at': response['created_at']
         }
 
     async def get_meals(self, authorization: str):

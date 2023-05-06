@@ -12,6 +12,7 @@ if __name__ == "__main__":
     load_dotenv()
 
 app = FastAPI()
+v1 = FastAPI()
 
 origins = ["*"]
 
@@ -24,15 +25,17 @@ app.add_middleware(
 )
 
 
-@app.get('/lol')
-def greeting(id, request: Request):
-    print(id)
+@v1.get('/lol')
+def greeting(request: Request):
     return {'greeting': 'Hello World'}
 
 
-app.include_router(register)
-app.include_router(login)
-app.include_router(meal)
-app.include_router(meals)
-app.include_router(create_my_week)
-app.include_router(my_week)
+v1.include_router(register)
+v1.include_router(login)
+v1.include_router(meal)
+v1.include_router(meals)
+v1.include_router(create_my_week)
+v1.include_router(my_week)
+
+
+app.mount("/api/v1", v1)
