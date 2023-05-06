@@ -34,6 +34,7 @@ class Custom_Error_Message(Enum):
     FIND_MEAL = "Error while finding meal in database"
     UPDATE_MEAL = "Error while updating meal in database"
     NO_ENOUGH_MEALS = "You must add at least 10 meals to create your week"
+    MEAL_NO_NAME = "You must add a name to your meal"
 
     # Create my week
     NOT_SUNDAY = "You must create your week on sunday"

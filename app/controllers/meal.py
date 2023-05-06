@@ -12,6 +12,9 @@ from ..database.database import db
 class meals:
 
     async def checking_meal(self, meal: IMeal, token: Json_web_token):
+        if (meal.name == None or meal.name == ''):
+            raise HTTPException(
+                status_code=403, detail=Custom_Error_Message.MEAL_NO_NAME.value)
         try:
             var = await db["meals"].find_one({'name': meal.name, 'user_id': ObjectId(token.get_id())})
         except:
