@@ -12,7 +12,7 @@ def test_login_success():
         "password": "1234567"
     }
     response = httpx.post(
-        "http://127.0.0.1:8000/login/", headers={"X-Token": "coneofsilence"}, data=json.dumps(data))
+        "http://127.0.0.1:8000/api/v1/login/", headers={"X-Token": "coneofsilence"}, data=json.dumps(data))
     assert response.status_code == 200
 
 
@@ -23,7 +23,7 @@ def test_login_with_bad_password():
         "password": "12345674"
     }
     response = httpx.post(
-        "http://127.0.0.1:8000/login/", headers={"X-Token": "coneofsilence"}, data=json.dumps(data))
+        "http://127.0.0.1:8000/api/v1/login/", headers={"X-Token": "coneofsilence"}, data=json.dumps(data))
     assert response.status_code == 403
     response = response.json()
     assert response['detail'] == Custom_Error_Message.BAD_PASSWORD.value

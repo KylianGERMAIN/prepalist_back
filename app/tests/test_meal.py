@@ -6,7 +6,7 @@ from app.utils.custom_error_message import Custom_Error_Message
 
 def delete_meal_(id: str):
     response = httpx.delete(
-        "http://127.0.0.1:8000/meal/"+id, headers={"Authorization": os.getenv(
+        "http://127.0.0.1:8000/api/v1/meal/"+id, headers={"Authorization": os.getenv(
             'JWT_SECRET_TEST_LOGIN_TOKEN')})
     assert response.status_code == 202
 
@@ -41,12 +41,12 @@ def test_update_meal():
         ]
     }
     response = httpx.post(
-        "http://127.0.0.1:8000/meal/", headers={"Authorization": os.getenv(
+        "http://127.0.0.1:8000/api/v1/meal/", headers={"Authorization": os.getenv(
             'JWT_SECRET_TEST_LOGIN_TOKEN')}, data=json.dumps(data))
     assert response.status_code == 201
     response = response.json()
     response = httpx.put(
-        "http://127.0.0.1:8000/meal/" + response['id'], headers={"Authorization": os.getenv(
+        "http://127.0.0.1:8000/api/v1/meal/" + response['id'], headers={"Authorization": os.getenv(
             'JWT_SECRET_TEST_LOGIN_TOKEN')}, data=json.dumps(data_update))
     assert response.status_code == 200
     response = response.json()
@@ -70,7 +70,7 @@ def test_meal_success():
         ]
     }
     response = httpx.post(
-        "http://127.0.0.1:8000/meal/", headers={"Authorization": os.getenv(
+        "http://127.0.0.1:8000/api/v1/meal/", headers={"Authorization": os.getenv(
             'JWT_SECRET_TEST_LOGIN_TOKEN')}, data=json.dumps(data))
     assert response.status_code == 201
     response = response.json()
@@ -93,7 +93,7 @@ def test_meal_with_bad_token():
         ]
     }
     response = httpx.post(
-        "http://127.0.0.1:8000/meal/", headers={"Authorization": "hello world"}, data=json.dumps(data))
+        "http://127.0.0.1:8000/api/v1/meal/", headers={"Authorization": "hello world"}, data=json.dumps(data))
     assert response.status_code == 403
     response = response.json()
     assert response['detail'] == Custom_Error_Message.INVALID_TOKEN.value
@@ -115,7 +115,7 @@ def test_meal_with_no_token():
         ]
     }
     response = httpx.post(
-        "http://127.0.0.1:8000/meal/", headers={}, data=json.dumps(data))
+        "http://127.0.0.1:8000/api/v1/meal/", headers={}, data=json.dumps(data))
     assert response.status_code == 401
     response = response.json()
     assert response['detail'] == Custom_Error_Message.NO_AUTHORIZATION.value
@@ -127,7 +127,7 @@ def test_meal_with_no_ingrediants():
         "ingredients": []
     }
     response = httpx.post(
-        "http://127.0.0.1:8000/meal/", headers={"Authorization": os.getenv(
+        "http://127.0.0.1:8000/api/v1/meal/", headers={"Authorization": os.getenv(
             'JWT_SECRET_TEST_LOGIN_TOKEN')}, data=json.dumps(data))
     assert response.status_code == 403
     response = response.json()
@@ -144,7 +144,7 @@ def test_meal_already_exist():
         ]
     }
     response = httpx.post(
-        "http://127.0.0.1:8000/meal/", headers={"Authorization": os.getenv(
+        "http://127.0.0.1:8000/api/v1/meal/", headers={"Authorization": os.getenv(
             'JWT_SECRET_TEST_LOGIN_TOKEN')}, data=json.dumps(data))
     assert response.status_code == 409
     response = response.json()
