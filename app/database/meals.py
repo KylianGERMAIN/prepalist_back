@@ -73,7 +73,6 @@ class db_meals:
                                    ingredient_list}}
             request = await db["meals"].update_one(filter, new_values)
             return request
-        except Exception as e:
-            print(e)
+        except:
             raise HTTPException(
                 status_code=403, detail=Custom_Error_Message.UPDATE_MEAL.value)

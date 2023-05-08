@@ -20,7 +20,6 @@ class list_ingredients:
             list_ingredients = list()
             for value in request['date']:
                 list_meal_id.append(ObjectId(value['dinner']['id']))
-            print(len(list_meal_id))
             if (len(list_meal_id) != 7):
                 raise HTTPException(
                     status_code=403, detail=Custom_Error_Message.NO_ENOUGH_MEAL_TO_GET_INGREDIENTS.value)
