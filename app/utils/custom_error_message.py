@@ -39,3 +39,7 @@ class Custom_Error_Message(Enum):
     # Create my week
     NOT_SUNDAY = "You must create your week on sunday"
     NO_WEEK = "You must create your week"
+
+    # List ingredients
+    CHECKING_LIST_INGREDIENTS = "Error while checking list ingredients in database"
+    NO_ENOUGH_MEAL_TO_GET_INGREDIENTS = "Your week must contain at least 7 meals to get ingredients"
