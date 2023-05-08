@@ -56,15 +56,17 @@ class week:
             random_nb = random.randint(0, var)
             myweek_meal.append(
                 {'name': mymeal[random_nb]['name'], 'id': str((mymeal[random_nb]['_id']))})
-            if (i != 6):
+
+            if (i == 0):
                 next_week[i]['dinner'] = myweek_meal[i]
                 next_week[i + 1]['lunch'] = myweek_meal[i]
                 mymeal.pop(random_nb)
-            elif (i == 0):
+            elif (i > 0 and i < 6):
                 next_week[i]['dinner'] = myweek_meal[i]
+                next_week[i + 1]['lunch'] = myweek_meal[i]
                 mymeal.pop(random_nb)
             else:
-                next_week[i]['lunch'] = myweek_meal[i]
+                next_week[i]['dinner'] = myweek_meal[i]
                 mymeal.pop(random_nb)
             var = var - 1
         return (next_week)

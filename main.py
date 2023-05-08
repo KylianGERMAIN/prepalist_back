@@ -4,6 +4,7 @@ from app.routes.week import router as week
 from app.routes.register import router as register
 from app.routes.meal import router as meal
 from app.routes.meals import router as meals
+from app.routes.list import router as list
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -24,16 +25,12 @@ app.add_middleware(
 )
 
 
-@v1.get('/lol')
-def greeting(request: Request):
-    return {'greeting': 'Hello World'}
-
-
 v1.include_router(register)
 v1.include_router(login)
 v1.include_router(meal)
 v1.include_router(meals)
 v1.include_router(week)
+v1.include_router(list)
 
 
 app.mount("/api/v1", v1)
