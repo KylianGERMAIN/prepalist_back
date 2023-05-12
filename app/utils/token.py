@@ -56,3 +56,11 @@ class Json_web_token:
         payload = self.decode_token(authorization, os.getenv(
             'JWT_SECRET_ACCESS_TOKEN'))
         self.set_id(payload['id'])
+
+    def checking_authorization_refresh(self, authorization: str):
+        if (authorization == None):
+            raise HTTPException(
+                status_code=401, detail=Custom_Error_Message.NO_AUTHORIZATION.value)
+        payload = self.decode_token(authorization, os.getenv(
+            'JWT_SECRET_REFRESH_TOKEN'))
+        self.set_id(payload['id'])

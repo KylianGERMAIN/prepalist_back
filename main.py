@@ -5,6 +5,7 @@ from app.routes.register import router as register
 from app.routes.meal import router as meal
 from app.routes.meals import router as meals
 from app.routes.list import router as list
+from app.routes.refresh_token import router as refresh_token
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -31,6 +32,7 @@ v1.include_router(meal)
 v1.include_router(meals)
 v1.include_router(week)
 v1.include_router(list)
+v1.include_router(refresh_token)
 
 
 app.mount("/api/v1", v1)
