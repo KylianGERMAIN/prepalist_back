@@ -1,7 +1,7 @@
 import datetime
 
 from bson import ObjectId
-from fastapi import HTTPException
+from app.models.week import IWeek
 from app.utils.custom_error_message import Custom_Error_Message
 from app.utils.token import Json_web_token
 from ..database.database import db
@@ -37,15 +37,14 @@ class week:
 
     async def next_week_create_meal(self, next_week: list):
         for x in next_week:
-            x['lunch'] = {'name': '', 'id': ''}
-            x['dinner'] = {'name': '', 'id': ''}
+            x['lunch'] = {'name': '', 'id': '', 'serving': 1}
+            x['dinner'] = {'name': '', 'id': '', 'serving': 1}
         return (next_week)
 
     async def next_week_add_meal(self, next_week: list, token: Json_web_token):
         var = await db["meals"].count_documents({'user_id': ObjectId(token.get_id())}) - 1
         if (var < 9):
-            raise HTTPException(
-                status_code=403, detail=Custom_Error_Message.NO_ENOUGH_MEALS.value)
+            raise NameError(Custom_Error_Message.NO_ENOUGH_MEALS.value, 403)
         random_nb = random.randint(1, var)
         mymeal = list()
         async for doc in db["meals"].find({'user_id': ObjectId(
@@ -55,7 +54,7 @@ class week:
         for i in range(7):
             random_nb = random.randint(0, var)
             myweek_meal.append(
-                {'name': mymeal[random_nb]['name'], 'id': str((mymeal[random_nb]['_id']))})
+                {'name': mymeal[random_nb]['name'], 'id': str((mymeal[random_nb]['_id'])), 'serving': 1})
 
             if (i == 0):
                 next_week[i]['dinner'] = myweek_meal[i]
@@ -71,22 +70,31 @@ class week:
             var = var - 1
         return (next_week)
 
-    async def add_week(self, next_week: list, token: Json_web_token):
+    async def add_week(self, new_week: IWeek, token: Json_web_token):
+        if (len(new_week.week) != 7):
+            raise NameError(Custom_Error_Message.NO_ENOUGH_DAYS.value, 403)
+        json_week = new_week.dict()
         request = await db["weeks"].find_one(
             {'user_id': ObjectId(token.get_id())})
         if (request == None):
             await db["weeks"].insert_one({
                 'user_id': ObjectId(token.get_id()),
-                'date': next_week
+                'date': json_week["week"]
             })
         else:
             await db["weeks"].delete_one({'user_id': ObjectId(token.get_id())})
             await db["weeks"].insert_one({
                 'user_id': ObjectId(token.get_id()),
-                'date': next_week
+                'date': json_week["week"]
             })
 
-    async def create_my_week_verification(self, authorization: str):
+    async def create_my_week_verification(self, authorization: str, new_week: IWeek):
+        token = Json_web_token('no id')
+        token.checking_authorization(authorization)
+        await self.add_week(new_week, token)
+        return new_week
+
+    async def generate_my_week(self, authorization: str):
         token = Json_web_token('no id')
         token.checking_authorization(authorization)
         today = str(datetime.date.today())
@@ -94,9 +102,7 @@ class week:
         first_day_of_next_day = await self.get_next_day(start_end[1])
         next_week = await self.set_next_week_date(first_day_of_next_day)
         next_week = await self.next_week_create_meal(next_week)
-
         next_week = await self.next_week_add_meal(next_week, token)
-        await self.add_week(next_week, token)
         return (next_week)
 
     async def get_my_week(self, authorization: str):
@@ -105,6 +111,5 @@ class week:
         request = await db["weeks"].find_one(
             {'user_id': ObjectId(token.get_id())})
         if (request == None):
-            raise HTTPException(
-                status_code=403, detail=Custom_Error_Message.NO_WEEK.value)
+            raise NameError(Custom_Error_Message.NO_WEEK.value, 403)
         return {'_id': str(request['_id']), 'date': request['date']}

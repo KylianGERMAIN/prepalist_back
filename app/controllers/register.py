@@ -1,38 +1,31 @@
 import os
+
+from app.controllers.login import checking_email
+from app.utils.check_input import check_email
 from app.utils.password import Crypt_password
 from app.utils.token import Json_web_token
 from app.database.users import db_users
 from app.utils.custom_error_message import Custom_Error_Message
-from fastapi import HTTPException
 from app.models.user import IUser
-from app.utils.check_input import check_email
 from ..database.database import db
 
 
 async def checking_email(email: str):
     if check_email(email) == False:
-        raise HTTPException(
-            status_code=400, detail=Custom_Error_Message.INVALID_EMAIL_ADRESS.value)
-    try:
-        var = await db["users"].find_one({'email': email})
-    except:
-        raise HTTPException(
-            status_code=403, detail=Custom_Error_Message.CHECKING_USER.value)
+        raise NameError(Custom_Error_Message.INVALID_EMAIL_ADRESS.value, 400)
+    var = await db["users"].find_one({'email': email})
     if var != None:
-        raise HTTPException(
-            status_code=409, detail=Custom_Error_Message.EMAIL_ALREADY_EXIST.value)
+        raise NameError(Custom_Error_Message.EMAIL_ALREADY_EXIST.value, 409)
 
 
 def checking_password(password: str):
     if len(password) < 7:
-        raise HTTPException(
-            status_code=403, detail=Custom_Error_Message.PASSWORD_LENGTH.value)
+        raise NameError(Custom_Error_Message.PASSWORD_LENGTH.value, 403)
 
 
 def checking_username(username: str):
     if len(username) < 5:
-        raise HTTPException(
-            status_code=403, detail=Custom_Error_Message.USERNAME_LENGTH.value)
+        raise NameError(Custom_Error_Message.USERNAME_LENGTH.value, 403)
 
 
 def create_tokens(id: str):

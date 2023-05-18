@@ -1,5 +1,4 @@
 import datetime
-from fastapi import HTTPException
 import jwt
 import os
 
@@ -35,32 +34,24 @@ class Json_web_token:
     def decode_token(self, encoded_jwt: str, env: str):
         encoded_jwt = encoded_jwt.split()
         if (len(encoded_jwt) != 2):
-            raise HTTPException(
-                status_code=403, detail=Custom_Error_Message.INVALID_TOKEN.value)
+            raise NameError(Custom_Error_Message.INVALID_TOKEN.value, 403)
         elif (encoded_jwt[0] != 'Bearer'):
-            raise HTTPException(
-                status_code=403, detail=Custom_Error_Message.INVALID_TOKEN.value)
+            raise NameError(Custom_Error_Message.INVALID_TOKEN.value, 403)
         else:
-            try:
-                decode_jwt = jwt.decode(
-                    encoded_jwt[1], env, algorithms=os.getenv('JWT_ALGORITHM'))
-                return decode_jwt
-            except:
-                raise HTTPException(
-                    status_code=403, detail=Custom_Error_Message.INVALID_TOKEN.value)
+            decode_jwt = jwt.decode(
+                encoded_jwt[1], env, algorithms=os.getenv('JWT_ALGORITHM'))
+            return decode_jwt
 
     def checking_authorization(self, authorization: str):
         if (authorization == None):
-            raise HTTPException(
-                status_code=401, detail=Custom_Error_Message.NO_AUTHORIZATION.value)
+            raise NameError(Custom_Error_Message.NO_AUTHORIZATION.value, 401)
         payload = self.decode_token(authorization, os.getenv(
             'JWT_SECRET_ACCESS_TOKEN'))
         self.set_id(payload['id'])
 
     def checking_authorization_refresh(self, authorization: str):
         if (authorization == None):
-            raise HTTPException(
-                status_code=401, detail=Custom_Error_Message.NO_AUTHORIZATION.value)
+            raise NameError(Custom_Error_Message.NO_AUTHORIZATION.value, 401)
         payload = self.decode_token(authorization, os.getenv(
             'JWT_SECRET_REFRESH_TOKEN'))
         self.set_id(payload['id'])

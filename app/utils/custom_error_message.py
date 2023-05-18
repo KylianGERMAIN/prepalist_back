@@ -20,25 +20,28 @@ class Custom_Error_Message(Enum):
     # Authorization
     NO_AUTHORIZATION = "You are not authorized to access this resource"
     INVALID_TOKEN = "Invalid token"
+    GENERATION_REFRESH_TOKEN = "Error while generating refresh token"
 
     # Authentification
-    ADD_USER = "Error while adding user to database"
-    CHECKING_USER = 'Error while checking user in database'
+    LOGIN_USER = "Error while login user in database"
+    REGISTER_USER = "Error while register user in database"
 
     # Meal
     MEAL_ALREADY_EXIST = "The meal already exist"
-    CHECKING_MEAL = "Error while checking meal in database"
     NO_INGREDIENTS = 'You must add at least one ingredient'
     REMOVE_MEAL = "Error while removing meal from database"
     MEAL_DOES_NOT_EXIST = "The meal does not exist"
     FIND_MEAL = "Error while finding meal in database"
+    FIND_MEALS = "Error while finding meals in database"
     UPDATE_MEAL = "Error while updating meal in database"
     NO_ENOUGH_MEALS = "You must add at least 10 meals to create your week"
     MEAL_NO_NAME = "You must add a name to your meal"
+    ADD_MEAL = "Error while adding meal to database"
 
     # Create my week
-    NOT_SUNDAY = "You must create your week on sunday"
     NO_WEEK = "You must create your week"
+    WEEK_NOT_GENERATED = "Error while generating week"
+    NO_ENOUGH_DAYS = "Your week must contain 7 days"
 
     # List ingredients
     CHECKING_LIST_INGREDIENTS = "Error while checking list ingredients in database"
