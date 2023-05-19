@@ -43,11 +43,15 @@ class Json_web_token:
             return decode_jwt
 
     def checking_authorization(self, authorization: str):
-        if (authorization == None):
-            raise NameError(Custom_Error_Message.NO_AUTHORIZATION.value, 401)
-        payload = self.decode_token(authorization, os.getenv(
-            'JWT_SECRET_ACCESS_TOKEN'))
-        self.set_id(payload['id'])
+        try:
+            if (authorization == None):
+                raise NameError(
+                    Custom_Error_Message.NO_AUTHORIZATION.value, 403)
+            payload = self.decode_token(authorization, os.getenv(
+                'JWT_SECRET_ACCESS_TOKEN'))
+            self.set_id(payload['id'])
+        except:
+            raise NameError(Custom_Error_Message.INVALID_TOKEN.value, 403)
 
     def checking_authorization_refresh(self, authorization: str):
         if (authorization == None):
