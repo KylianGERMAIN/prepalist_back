@@ -17,8 +17,10 @@ class list_ingredients:
         list_meal_id = list()
         list_ingredients = list()
         for value in request['date']:
+            list_meal_id.append(ObjectId(value['lunch']['id']))
             list_meal_id.append(ObjectId(value['dinner']['id']))
-        if (len(list_meal_id) != 7):
+        list_meal_id = list(dict.fromkeys(list_meal_id))
+        if (len(list_meal_id) <= 0):
             raise NameError(
                 Custom_Error_Message.NO_ENOUGH_MEAL_TO_GET_INGREDIENTS.value, 403)
         else:

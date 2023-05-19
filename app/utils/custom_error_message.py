@@ -45,4 +45,4 @@ class Custom_Error_Message(Enum):
 
     # List ingredients
     CHECKING_LIST_INGREDIENTS = "Error while checking list ingredients in database"
-    NO_ENOUGH_MEAL_TO_GET_INGREDIENTS = "Your week must contain at least 7 meals to get ingredients"
+    NO_ENOUGH_MEAL_TO_GET_INGREDIENTS = "Your week must contain at least 1 meals to get ingredients"
