@@ -17,8 +17,10 @@ class list_ingredients:
         list_meal_id = list()
         list_ingredients = list()
         for value in request['date']:
-            list_meal_id.append(ObjectId(value['lunch']['id']))
-            list_meal_id.append(ObjectId(value['dinner']['id']))
+            if (value['lunch']['id'] != ''):
+                list_meal_id.append(ObjectId(value['lunch']['id']))
+            if (value['dinner']['id'] != ''):
+                list_meal_id.append(ObjectId(value['dinner']['id']))
         list_meal_id = list(dict.fromkeys(list_meal_id))
         if (len(list_meal_id) <= 0):
             raise NameError(
