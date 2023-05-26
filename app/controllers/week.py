@@ -57,12 +57,12 @@ class week:
                 {'name': mymeal[random_nb]['name'], 'id': str((mymeal[random_nb]['_id'])), 'serving': 1})
 
             if (i == 0):
-                next_week[i]['dinner'] = myweek_meal[i]
                 next_week[i + 1]['lunch'] = myweek_meal[i]
+                next_week[i]['dinner'] = myweek_meal[i]
                 mymeal.pop(random_nb)
             elif (i > 0 and i < 6):
-                next_week[i]['dinner'] = myweek_meal[i]
                 next_week[i + 1]['lunch'] = myweek_meal[i]
+                next_week[i]['dinner'] = myweek_meal[i]
                 mymeal.pop(random_nb)
             else:
                 next_week[i]['dinner'] = myweek_meal[i]
