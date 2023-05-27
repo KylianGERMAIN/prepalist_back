@@ -1,7 +1,6 @@
 import os
 import json
 import httpx
-from app.utils.custom_error_message import Custom_Error_Message
 
 
 def test_create_my_week():

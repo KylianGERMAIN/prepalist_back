@@ -1,9 +1,10 @@
 
 import datetime
 from bson import ObjectId
-from app.models.meal import IMeal
+from app.models.meal import IMeal, IMeal_V2
 from app.utils.custom_error_message import Custom_Error_Message
 from app.utils.token import Json_web_token
+from fastapi.encoders import jsonable_encoder
 from ..database.database import db
 
 
@@ -19,8 +20,15 @@ class db_meals:
             {'user_id': ObjectId(token.get_id()), 'name': meal.name, 'ingredients': ingredient_list, 'created_at': day})
         return request
 
-    async def remove_meal(self, id: str, token: Json_web_token):
+    async def add_meal_v2(self, meal: IMeal_V2, token: Json_web_token):
+        day = datetime.datetime.now()
+        day = day.strftime("%Y-%m-%d %H:%M:%S")
+        meal.created_at = str(day)
+        request = await db["meals"].insert_one(
+            {'user_id': ObjectId(token.get_id()), 'name': meal.name, 'ingredients': jsonable_encoder(meal.ingredients), 'created_at': meal.created_at})
+        return request
 
+    async def remove_meal(self, id: str, token: Json_web_token):
         request = await db["meals"].delete_one(
             {'_id': ObjectId(id), 'user_id': ObjectId(token.get_id())})
         return request

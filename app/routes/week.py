@@ -1,5 +1,4 @@
 from fastapi import APIRouter, HTTPException, Request
-
 from app.controllers.week import week
 from app.models.week import IWeek
 from app.utils.custom_error_message import Custom_Error_Message

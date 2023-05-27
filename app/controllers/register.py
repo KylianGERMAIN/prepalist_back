@@ -1,5 +1,4 @@
 import os
-
 from app.controllers.login import checking_email
 from app.utils.check_input import check_email
 from app.utils.password import Crypt_password

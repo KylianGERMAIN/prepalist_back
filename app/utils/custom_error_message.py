@@ -37,6 +37,8 @@ class Custom_Error_Message(Enum):
     NO_ENOUGH_MEALS = "You must add at least 10 meals to create your week"
     MEAL_NO_NAME = "You must add a name to your meal"
     ADD_MEAL = "Error while adding meal to database"
+    INGREDIENT_NO_QUANTITY = "You must add a quantity to your ingredient"
+    INGREDIENT_NO_UNIT = "You must add a unit to your ingredient"
 
     # Create my week
     NO_WEEK = "You must create your week"

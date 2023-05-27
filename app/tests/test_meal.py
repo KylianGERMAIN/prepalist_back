@@ -6,7 +6,7 @@ from app.utils.custom_error_message import Custom_Error_Message
 
 def delete_meal_(id: str):
     response = httpx.delete(
-        "http://127.0.0.1:8000/api/v1/meal/"+id, headers={"Authorization": os.getenv(
+        "http://127.0.0.1:8000/api/v2/meal/"+id, headers={"Authorization": os.getenv(
             'JWT_SECRET_TEST_LOGIN_TOKEN')})
     assert response.status_code == 202
 
@@ -15,38 +15,50 @@ def test_update_meal():
     data = {
         "name": "pate carbonara",
         "ingredients": [
+                {
+                    "ingredient": "pate",
+                    "quantity": 100,
+                    "unit": "g"
+                },
             {
-                "ingredient": "pate"
-            },
+                    "ingredient": "creme fraiche",
+                    "quantity": 12.5,
+                    "unit": "cL"
+                },
             {
-                "ingredient": "creme fraiche"
-            },
-            {
-                "ingredient": "lardon"
-            }
+                    "ingredient": "lardon",
+                    "quantity": 62.5,
+                    "unit": "g"
+                }
         ]
     }
     data_update = {
         "name": "pate bolognaise",
         "ingredients": [
             {
-                "ingredient": "pate"
+                "ingredient": "pate",
+                "quantity": 125,
+                "unit": "g"
             },
             {
-                "ingredient": "sauce tomate"
+                "ingredient": "sauce tomate",
+                "quantity": 125,
+                "unit": "g"
             },
             {
-                "ingredient": "boulette de viande"
+                "ingredient": "boulette de viande",
+                "quantity": 75,
+                "unit": "g"
             }
         ]
     }
     response = httpx.post(
-        "http://127.0.0.1:8000/api/v1/meal/", headers={"Authorization": os.getenv(
+        "http://127.0.0.1:8000/api/v2/meal/", headers={"Authorization": os.getenv(
             'JWT_SECRET_TEST_LOGIN_TOKEN')}, data=json.dumps(data))
     assert response.status_code == 201
     response = response.json()
     response = httpx.put(
-        "http://127.0.0.1:8000/api/v1/meal/" + response['id'], headers={"Authorization": os.getenv(
+        "http://127.0.0.1:8000/api/v2/meal/" + response['id'], headers={"Authorization": os.getenv(
             'JWT_SECRET_TEST_LOGIN_TOKEN')}, data=json.dumps(data_update))
     assert response.status_code == 200
     response = response.json()
@@ -59,18 +71,24 @@ def test_meal_success():
         "name": "pate carbonara",
         "ingredients": [
             {
-                "ingredient": "pate"
+                "ingredient": "pate",
+                "quantity": 100,
+                "unit": "g"
             },
             {
-                "ingredient": "creme fraiche"
+                "ingredient": "creme fraiche",
+                "quantity": 12.5,
+                "unit": "cL"
             },
             {
-                "ingredient": "lardon"
+                "ingredient": "lardon",
+                "quantity": 62.5,
+                "unit": "g"
             }
         ]
     }
     response = httpx.post(
-        "http://127.0.0.1:8000/api/v1/meal/", headers={"Authorization": os.getenv(
+        "http://127.0.0.1:8000/api/v2/meal/", headers={"Authorization": os.getenv(
             'JWT_SECRET_TEST_LOGIN_TOKEN')}, data=json.dumps(data))
     assert response.status_code == 201
     response = response.json()
@@ -82,18 +100,24 @@ def test_meal_with_bad_token():
         "name": "sandwitch Jambon beurre",
         "ingredients": [
             {
-                "ingredient": "pain"
+                "ingredient": "pain",
+                "quantity": 1,
+                "unit": "unit"
             },
             {
-                "ingredient": "jambon"
+                "ingredient": "jambon",
+                "quantity": 1,
+                "unit": "unit"
             },
             {
-                "ingredient": "beurre"
+                "ingredient": "beurre",
+                "quantity": 10,
+                "unit": "g"
             }
         ]
     }
     response = httpx.post(
-        "http://127.0.0.1:8000/api/v1/meal/", headers={"Authorization": "hello world"}, data=json.dumps(data))
+        "http://127.0.0.1:8000/api/v2/meal/", headers={"Authorization": "hello world"}, data=json.dumps(data))
     assert response.status_code == 403
     response = response.json()
     assert response['detail'] == Custom_Error_Message.INVALID_TOKEN.value
@@ -104,21 +128,27 @@ def test_meal_with_no_token():
         "name": "sandwitch Jambon beurre",
         "ingredients": [
             {
-                "ingredient": "pain"
+                "ingredient": "pain",
+                "quantity": 1,
+                "unit": "unit"
             },
             {
-                "ingredient": "jambon"
+                "ingredient": "jambon",
+                "quantity": 1,
+                "unit": "unit"
             },
             {
-                "ingredient": "beurre"
+                "ingredient": "beurre",
+                "quantity": 10,
+                "unit": "g"
             }
         ]
     }
     response = httpx.post(
-        "http://127.0.0.1:8000/api/v1/meal/", headers={}, data=json.dumps(data))
-    assert response.status_code == 401
+        "http://127.0.0.1:8000/api/v2/meal/", headers={}, data=json.dumps(data))
+    assert response.status_code == 403
     response = response.json()
-    assert response['detail'] == Custom_Error_Message.NO_AUTHORIZATION.value
+    assert response['detail'] == Custom_Error_Message.INVALID_TOKEN.value
 
 
 def test_meal_with_no_ingrediants():
@@ -127,7 +157,7 @@ def test_meal_with_no_ingrediants():
         "ingredients": []
     }
     response = httpx.post(
-        "http://127.0.0.1:8000/api/v1/meal/", headers={"Authorization": os.getenv(
+        "http://127.0.0.1:8000/api/v2/meal/", headers={"Authorization": os.getenv(
             'JWT_SECRET_TEST_LOGIN_TOKEN')}, data=json.dumps(data))
     assert response.status_code == 403
     response = response.json()
@@ -139,12 +169,14 @@ def test_meal_already_exist():
         "name": "test",
         "ingredients": [
             {
-                "ingredient": "test"
+                "ingredient": "test",
+                "quantity": 10,
+                "unit": "g"
             }
         ]
     }
     response = httpx.post(
-        "http://127.0.0.1:8000/api/v1/meal/", headers={"Authorization": os.getenv(
+        "http://127.0.0.1:8000/api/v2/meal/", headers={"Authorization": os.getenv(
             'JWT_SECRET_TEST_LOGIN_TOKEN')}, data=json.dumps(data))
     assert response.status_code == 409
     response = response.json()

@@ -2,7 +2,6 @@ from app.controllers.register import register_verification
 from app.models.responses import Response_tokens
 from app.models.user import IUser
 from fastapi import APIRouter, HTTPException
-
 from app.utils.custom_error_message import Custom_Error_Message
 
 router = APIRouter(

@@ -19,6 +19,5 @@ async def login(user: IUser):
         raise HTTPException(
             status_code=e.args[1], detail=e.args[0])
     except Exception as e:
-        print(e)
         raise HTTPException(
             status_code=403, detail=Custom_Error_Message.LOGIN_USER.value)

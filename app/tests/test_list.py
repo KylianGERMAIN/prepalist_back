@@ -1,9 +1,5 @@
 import os
-from unittest import TestCase
-import json
-from fastapi.testclient import TestClient
 import httpx
-from app.utils.custom_error_message import Custom_Error_Message
 
 
 def test_test_success():
